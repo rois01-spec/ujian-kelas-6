@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKPD Digital: Proyek Biogas Sederhana (Kelas VI)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .task-card {
+            border-left: 5px solid #10b981; /* Emerald 500 */
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        textarea, input[type="text"] {
+            resize: vertical;
+            min-height: 80px;
+        }
+        /* Custom height override for table inputs */
+        #anggota_table input[type="text"], .langkah-input {
+            min-height: 30px; /* Override minimum height for table inputs */
+            height: 38px;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- KONFIRMASI (Jika Anda melihat ini di browser, berarti file sudah berhasil!) -->
+    <div class="max-w-4xl mx-auto bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg font-semibold">
+        <p>✅ **INSTRUKSI:** Jika Anda melihat pesan ini di browser, Anda sudah berhasil menjalankan LKPD. Silakan isi data di bawah.</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-10">
+
+        <!-- Header LKPD -->
+        <header class="text-center mb-10 border-b pb-4">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-green-700">LEMBAR KERJA PROYEK DIGITAL</h1>
+            <p class="text-xl text-gray-600 mt-1">Proyek Biogas Sederhana: Solusi Sains untuk Lingkungan</p>
+            <p class="text-sm text-gray-500 mt-3">Kelas VI SDN Danasri Lor 01 - Pembelajaran Mendalam (PjBL)</p>
+        </header>
+        
+        <!-- Bagian TUJUAN PEMBELAJARAN -->
+        <section class="mb-8 p-4 bg-blue-50 rounded-lg shadow-sm">
+            <h2 class="text-xl font-bold text-blue-800 mb-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.047A12.003 12.003 0 003 12c0 2.83.67 5.57 1.95 8h16.1c1.28-2.43 1.95-5.17 1.95-8a12.003 12.003 0 00-1.382-6.064z" />
+                </svg>
+                TUJUAN PEMBELAJARAN
+            </h2>
+            <ul class="list-disc ml-6 text-gray-700 space-y-2 text-sm">
+                <li>Mengidentifikasi dan menjelaskan masalah limbah organik di lingkungan sekitar (Berkesadaran & Bermakna).</li>
+                <li>Menerapkan langkah-langkah PjBL untuk membuat Biogas sederhana dari sampah organik secara kolaboratif (Mengaplikasi & Gotong Royong).</li>
+                <li>Menganalisis dan menjelaskan konsep ilmiah Dekomposisi Anaerobik di balik proses pembentukan Biogas (Bernalar Kritis).</li>
+                <li>Merefleksikan peran Biogas sebagai solusi energi terbarukan dan peran diri sebagai inovator lingkungan (Merefleksi).</li>
+            </ul>
+        </section>
+
+        <!-- Bagian Identitas Kelompok -->
+        <section class="mb-10 p-4 bg-green-50 rounded-lg">
+            <h2 class="text-2xl font-bold text-green-700 mb-4">IDENTITAS KELOMPOK & PERAN (Gotong Royong)</h2>
+            <div class="space-y-3">
+                <input type="text" id="nama_kelompok" placeholder="Nama Kelompok (Contoh: Tim Inovator Hijau)" class="w-full p-2 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-green-500">
+                
+                <!-- Tabel Anggota -->
+                <div class="overflow-x-auto pt-4">
+                    <table class="w-full text-left border-collapse" id="anggota_table">
+                        <thead>
+                            <tr class="bg-green-200 text-green-800">
+                                <th class="p-2 border border-green-300 w-1/2">Nama Anggota</th>
+                                <th class="p-2 border border-green-300 w-1/2">Peran dalam Proyek (Cacah, Campur, Catat, dll)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Baris akan ditambahkan oleh JS, default 2 baris -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button onclick="addRow()" class="mt-3 text-sm bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Tambah Anggota
+                </button>
+            </div>
+        </section>
+        
+        <!-- Fase Proyek Berdasarkan RPM -->
+        <section class="space-y-8">
+            <h2 class="text-2xl font-bold text-green-700 mb-6">FASE PROYEK (Deep Learning & PjBL)</h2>
+
+            <!-- FASE 1: PERSIAPAN BAHAN (Checklist) -->
+            <div class="task-card p-6 bg-gray-50 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">1. FASE PERSIAPAN BAHAN (Mengaplikasi)</h3>
+                <p class="text-gray-600 mb-4">Verifikasi dan centang bahan/alat yang sudah disiapkan untuk praktik Biogas Sederhana:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Bahan Utama -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Sampah Organik (Sisa buah/sayur)</span>
+                    </label>
+                    <!-- Air -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Air Bersih (200-300 ml)</span>
+                    </label>
+                    <!-- Botol Plastik -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Botol Plastik Bekas (Ukuran 600 ml)</span>
+                    </label>
+                    <!-- Balon -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Balon Karet (1 buah)</span>
+                    </label>
+                    <!-- Pengaduk/Spatula -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Alat Pengaduk (Sendok/Spatula)</span>
+                    </label>
+                    <!-- Tali/Karet -->
+                    <label class="flex items-center p-3 bg-white rounded-lg shadow-inner cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded" checked disabled>
+                        <span class="ml-3 text-gray-700 font-medium">Karet/Tali Pengikat</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- FASE 2: PRAKTIK AKTIF & KREATIF (Diubah menjadi Tabel Langkah Kerja) -->
+            <div class="task-card p-6 bg-gray-50 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">2. FASE PRAKTIK (Kreatif & Menggembirakan)</h3>
+                <p class="text-gray-600 mb-4">Lakukan langkah-langkah di bawah ini secara kolaboratif. Centang **Checklist** jika sudah selesai dan tuliskan kesulitan/kendala di kolom **Catatan Kelompok**.</p>
+                
+                <!-- Tabel Langkah Kerja -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+                        <thead>
+                            <tr class="bg-green-100 text-sm font-bold text-green-800">
+                                <th class="py-2 px-3 border-b w-1/12 text-center">No.</th>
+                                <th class="py-2 px-3 border-b w-4/12">Langkah Kerja</th>
+                                <th class="py-2 px-3 border-b w-2/12 text-center">Checklist</th>
+                                <th class="py-2 px-3 border-b w-5/12">Catatan Kelompok (Kendala/Hal Penting)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Langkah 1: Siapkan Bahan -->
+                            <tr>
+                                <td class="py-2 px-3 border-b text-center">1</td>
+                                <td class="py-2 px-3 border-b text-gray-700">Potong kecil-kecil sampah organik agar proses pembusukan (dekomposisi) berjalan lebih cepat.</td>
+                                <td class="py-2 px-3 border-b text-center"><input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded"></td>
+                                <td class="py-2 px-3 border-b"><input type="text" placeholder="Contoh: Kami kesulitan memotong, butuh waktu 5 menit." class="langkah-input w-full border-b p-1 text-sm focus:border-green-500"></td>
+                            </tr>
+                            <!-- Langkah 2: Campurkan -->
+                            <tr>
+                                <td class="py-2 px-3 border-b text-center">2</td>
+                                <td class="py-2 px-3 border-b text-gray-700">Campurkan sampah organik dengan air (sekitar 200-300 ml) di dalam botol plastik. Aduk rata.</td>
+                                <td class="py-2 px-3 border-b text-center"><input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded"></td>
+                                <td class="py-2 px-3 border-b"><input type="text" placeholder="Catatan: Gunakan perbandingan 1:1 antara sampah dan air." class="langkah-input w-full border-b p-1 text-sm focus:border-green-500"></td>
+                            </tr>
+                            <!-- Langkah 3: Pasang Balon (Kunci Anaerobik) -->
+                            <tr>
+                                <td class="py-2 px-3 border-b text-center">3</td>
+                                <td class="py-2 px-3 border-b font-semibold text-red-600">Pasang balon di mulut botol dan pastikan tertutup **SANGAT RAPAT** (Kedap Udara/Anaerobik).</td>
+                                <td class="py-2 px-3 border-b text-center"><input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded"></td>
+                                <td class="py-2 px-3 border-b"><input type="text" placeholder="Catatan: Kami memakai karet tambahan agar benar-benar kedap." class="langkah-input w-full border-b p-1 text-sm focus:border-green-500"></td>
+                            </tr>
+                            <!-- Langkah 4: Penempatan -->
+                            <tr>
+                                <td class="py-2 px-3 border-b text-center">4</td>
+                                <td class="py-2 px-3 border-b text-gray-700">Letakkan botol di tempat yang hangat (seperti belakang rumah atau teras) untuk mempercepat proses.</td>
+                                <td class="py-2 px-3 border-b text-center"><input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded"></td>
+                                <td class="py-2 px-3 border-b"><input type="text" placeholder="Tempat yang dipilih: ................." class="langkah-input w-full border-b p-1 text-sm focus:border-green-500"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FASE 3: PENGAMATAN INSTAN & BERNALAR KRITIS (Bagian ini diperbarui) -->
+            <div class="task-card p-6 bg-gray-50 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">3. FASE PENGAMATAN INSTAN & BERNALAR KRITIS</h3>
+                <p class="text-gray-600 mb-4 font-bold">Waktu Maksimal Pengamatan Instan: 20 Menit!</p>
+                <p class="text-gray-600 mb-4">Lakukan **Pengamatan Instan** (tepat setelah balon dipasang) dan catat di kolom **Deskripsi Awal**. Kolom **Deskripsi Akhir** akan diisi pada sesi pengamatan lanjutan setelah beberapa hari.</p>
+                
+                <!-- Tabel Pengamatan -->
+                <h4 class="font-medium mt-4 mb-2">Tabel Pengamatan & Perbandingan</h4>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+                        <thead>
+                            <tr class="bg-green-100 text-sm font-bold text-green-800">
+                                <th class="py-2 px-4 border-b w-4/12">Aspek yang Diamati</th>
+                                <th class="py-2 px-4 border-b w-4/12">Deskripsi Awal (Saat Balon Terpasang / Menit 0)</th>
+                                <th class="py-2 px-4 border-b w-4/12">Deskripsi Akhir (Setelah 3 Hari)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Baris 1: Kondisi Balon -->
+                            <tr>
+                                <td class="py-2 px-4 border-b font-medium text-gray-700">Kondisi Balon</td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Contoh: Balon kempes/datar, tidak ada udara." class="w-full border-b p-1 text-sm">
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Diisi saat sesi lanjutan: Mengembang / Tidak mengembang?" class="w-full border-b p-1 text-sm">
+                                </td>
+                            </tr>
+                            <!-- Baris 2: Permukaan Air (Gelembung?) -->
+                            <tr>
+                                <td class="py-2 px-4 border-b font-medium text-gray-700">Permukaan Air (Muncul Gelembung?)</td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Contoh: Permukaan tenang, belum ada gelembung." class="w-full border-b p-1 text-sm">
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Diisi saat sesi lanjutan: Banyak/Sedikit/Tidak ada gelembung?" class="w-full border-b p-1 text-sm">
+                                </td>
+                            </tr>
+                            <!-- Baris 3: Perubahan Nyata Lainnya -->
+                            <tr>
+                                <td class="py-2 px-4 border-b font-medium text-gray-700">Perubahan Nyata Lainnya (Bau/Warna/Suhu)</td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Contoh: Bau asam lemah, warna cokelat muda." class="w-full border-b p-1 text-sm">
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <input type="text" placeholder="Diisi saat sesi lanjutan: Perubahan bau, warna, atau suhu." class="w-full border-b p-1 text-sm">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- START: AKTIVITAS BERNALAR KRITIS - Tanda bintang sudah dihilangkan -->
+                <h4 class="font-bold mt-8 mb-4 text-xl text-gray-800 border-l-4 border-red-500 pl-3 py-1 bg-red-50 rounded-md">AKTIVITAS BERNALAR KRITIS (Bernalar Kritis)</h4>
+                <div class="space-y-4 p-4 bg-white rounded-lg border border-gray-200 shadow-lg">
+                    <div class="text-sm">
+                        <!-- Pertanyaan 1: Hasil Pengamatan -->
+                        <label for="kritis_q1" class="block font-semibold text-gray-700 mb-1">1. <span class="text-blue-700">Hasil Pengamatan</span>: Apakah terjadi perubahan pada balon atau di dalam botol setelah 20 menit? Jelaskan perubahan tersebut!</label>
+                        <textarea id="kritis_q1" placeholder="Tuliskan jawaban kelompokmu di sini..." class="w-full p-2 border rounded-lg focus:border-red-500 min-h-[60px]"></textarea>
+                    </div>
+                    <div class="text-sm">
+                        <!-- Pertanyaan 2: Konsep Ilmiah (Dekomposisi Anaerobik) -->
+                        <label for="kritis_q2" class="block font-semibold text-gray-700 mb-1">2. <span class="text-blue-700">Konsep Ilmiah</span>: Balon mengembang (jika terjadi) membuktikan adanya gas. Jelaskan proses ilmiah apa (disebut Dekomposisi Anaerobik) yang menghasilkan gas tersebut di dalam botol yang tertutup rapat?</label>
+                        <textarea id="kritis_q2" placeholder="Tuliskan jawaban kelompokmu di sini..." class="w-full p-2 border rounded-lg focus:border-red-500 min-h-[60px]"></textarea>
+                    </div>
+                    <div class="text-sm">
+                        <!-- Pertanyaan 3: Aplikasi Nyata (Solusi Sains) -->
+                        <label for="kritis_q3" class="block font-semibold text-gray-700 mb-1">3. <span class="text-blue-700">Aplikasi Nyata (Solusi Sains)</span>: Model ini adalah versi sederhana dari pabrik Biogas. Mengapa Biogas dianggap sebagai energi yang lebih baik daripada hanya membuang sampah organik ke tempat sampah biasa? (Hubungkan dengan isu lingkungan)</label>
+                        <textarea id="kritis_q3" placeholder="Tuliskan jawaban kelompokmu di sini..." class="w-full p-2 border rounded-lg focus:border-red-500 min-h-[60px]"></textarea>
+                    </div>
+                </div>
+                <!-- END: AKTIVITAS BERNALAR KRITIS -->
+
+                <h4 class="font-medium mt-6 mb-2">Penjelasan Konsep Tambahan & Prediksi:</h4>
+                <textarea id="penjelasan_konsep" placeholder="Tuliskan prediksimu: Apa yang akan terjadi pada balon dan isi botol setelah 3 HARI? Mengapa?" class="w-full p-3 border rounded-lg"></textarea>
+            </div>
+
+            <!-- FASE 4: REFLEKSI AKHIR -->
+            <div class="task-card p-6 bg-green-100 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">4. REFLEKSI AKHIR & KESIMPULAN (Merefleksi)</h3>
+                <p class="text-gray-600 mb-4">Buatlah kesimpulan akhir dan refleksi tentang peranmu sebagai Solusi Sains Lingkungan:</p>
+                <textarea id="kesimpulan_akhir" placeholder="Berdasarkan praktikum 1 hari ini, apa yang dapat kamu simpulkan mengenai hubungan antara sampah organik, kondisi tanpa udara (anaerobik), dan energi terbarukan (Biogas)?" class="w-full p-3 border border-green-300 rounded-lg focus:border-green-600 focus:ring-green-600"></textarea>
+
+                <h4 class="font-medium mt-6 mb-2 text-sm text-gray-700">Masukan dari Kelompok Lain/Guru (Catatan):</h4>
+                <textarea id="masukan_lain" placeholder="Tuliskan masukan yang kamu dapatkan saat sesi presentasi..." class="w-full p-2 border rounded-lg bg-white"></textarea>
+            </div>
+        </section>
+
+        <!-- Tombol Aksi (Simulasi Cetak/Simpan) -->
+        <div class="mt-10 pt-6 border-t border-gray-200 text-center">
+            <button onclick="simpanLKPD()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M7 3a1 1 100 2h6a1 1 0100-2H7z" />
+                    <path fill-rule="evenodd" d="M3 8a4 4 0 014-4h6a4 4 0 014 4v4.586a2 2 0 01-.293 1.414l-1.5 1.5A.5.5 0 0114.5 20h-9a.5.5 0 01-.354-.854l-1.5-1.5A2 2 0 013 12.586V8zm5.414 7.414l1 1h4.086V13h-4.086l-1-1H8v3.414z" clip-rule="evenodd" />
+                </svg>
+                Simpan & Kirim (Simulasi Paperless)
+            </button>
+            <p id="pesan_simpan" class="mt-4 text-sm font-medium text-gray-500"></p>
+        </div>
+
+    </div>
+
+    <script>
+        // Fungsi untuk menambahkan baris baru ke tabel anggota
+        function addRow(initialRows = 0) {
+            const tableBody = document.getElementById('anggota_table').getElementsByTagName('tbody')[0];
+            const rowCount = tableBody.rows.length;
+
+            // Jika dipanggil tanpa argumen, dan sudah ada 6 baris atau lebih, jangan tambah lagi
+            if (initialRows === 0 && rowCount >= 6) {
+                // Mengganti alert() dengan pesan di konsol atau UI kustom jika ini adalah aplikasi nyata
+                console.error("Maksimal 6 anggota per kelompok."); 
+                return;
+            }
+
+            const newRow = tableBody.insertRow();
+            newRow.classList.add('hover:bg-green-50');
+
+            // Kolom Nama Anggota
+            const cell1 = newRow.insertCell(0);
+            cell1.classList.add('p-1', 'border', 'border-green-300');
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.placeholder = `Nama Anggota ${rowCount + 1}`;
+            nameInput.className = 'w-full p-1 border-b text-sm focus:outline-none focus:border-green-500';
+            nameInput.name = 'nama_anggota';
+            cell1.appendChild(nameInput);
+
+            // Kolom Peran
+            const cell2 = newRow.insertCell(1);
+            cell2.classList.add('p-1', 'border', 'border-green-300');
+            const roleInput = document.createElement('input');
+            roleInput.type = 'text';
+            roleInput.placeholder = 'Peran (Cacah, Catat, dll)';
+            roleInput.className = 'w-full p-1 border-b text-sm focus:outline-none focus:border-green-500';
+            roleInput.name = 'peran_anggota';
+            cell2.appendChild(roleInput);
+        }
+
+        // Simulasi fungsi penyimpanan data paperless
+        function simpanLKPD() {
+            const pesanSimpan = document.getElementById('pesan_simpan');
+            
+            // Ambil data (hanya contoh sederhana tanpa Firebase/DB)
+            const namaKelompok = document.getElementById('nama_kelompok').value;
+            
+            if (namaKelompok.trim() === "") {
+                pesanSimpan.textContent = "Mohon isi Nama Kelompok terlebih dahulu!";
+                pesanSimpan.className = "mt-4 text-sm font-medium text-red-500";
+                return;
+            }
+
+            // Membangun data ringkasan, termasuk anggota
+            const anggotaRows = document.getElementById('anggota_table').getElementsByTagName('tbody')[0].rows;
+            let anggotaList = [];
+            for (let i = 0; i < anggotaRows.length; i++) {
+                const nama = anggotaRows[i].cells[0].querySelector('input').value || '(Kosong)';
+                const peran = anggotaRows[i].cells[1].querySelector('input').value || '(Kosong)';
+                if (nama !== '(Kosong)') {
+                    anggotaList.push(`${nama} (${peran})`);
+                }
+            }
+            
+            // Mencoba mengambil data langkah kerja (hanya untuk log)
+            const langkahData = Array.from(document.querySelectorAll('.langkah-input'))
+                                     .map(input => input.value)
+                                     .filter(val => val.trim() !== '');
+
+            const ringkasan = `
+                Nama Kelompok: ${namaKelompok}
+                Anggota: ${anggotaList.join(', ').substring(0, 80)}...
+                Catatan Langkah Praktik: ${langkahData.join(' | ').substring(0, 80)}...
+                Kesimpulan: ${document.getElementById('kesimpulan_akhir').value.substring(0, 50)}...
+            `;
+
+            // Tampilkan pesan sukses dan simulasi penyimpanan
+            pesanSimpan.textContent = `✅ LKPD Digital Kelompok ${namaKelompok} berhasil tersimpan dan terkirim! Guru akan meninjau hasilnya. (Paperless Selesai)`;
+            pesanSimpan.className = "mt-4 text-sm font-extrabold text-emerald-600";
+            
+            // Log ke konsol sebagai simulasi data terkirim
+            console.log("--- Data LKPD Tersimpan (Simulasi) ---");
+            console.log(ringkasan);
+            
+            // Nonaktifkan tombol setelah dikirim (opsional)
+            // document.querySelector('button').disabled = true;
+        }
+
+        // Fungsi untuk memastikan input tidak kosong saat LKPD dimuat
+        window.onload = function() {
+            console.log("LKPD Digital siap digunakan. Silakan isi data proyek Anda!");
+            // Tambahkan 2 baris default saat halaman dimuat
+            addRow(1);
+            addRow(1);
+        }
+    </script>
+</body>
+</html>
